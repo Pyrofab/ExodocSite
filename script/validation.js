@@ -40,8 +40,8 @@ class Question {
             if(validate(this) === false)
                 ok = false;
         if(!this.correction.text)
-            this.correction.text = (ok ? "Bravo !" : "Nop");
-        this.correction.show();
+            this.correction.text = ok ? "Bravo !" : "Nop";
+        this.correction.show(null, ok);
         this.attempts++;
     }
 }
@@ -51,7 +51,6 @@ class Answer {
         this.htmlElement = htmlElement;
         this.inputId = inputId;
         this.correction = new Correction(this.htmlElement.querySelector(".correction_field"));
-        this.correction.color(this.isValid() ? "green" : "red");
     }
 
     get inputElement() {return document.getElementById(this.inputId)}
@@ -87,8 +86,10 @@ class Correction {
         this.html.hidden = true;
     }
 
-    show(text) {
+    show(text, valid) {
         if (text) this.text = text;
+        this.html.classList.remove(!valid ? "correction-right" : "correction-wrong");
+        this.html.classList.add(valid ? "correction-right" : "correction-wrong");
         this.html.hidden = false;
     }
 
@@ -99,6 +100,7 @@ class Correction {
         }
         let cln = setupListeners(elmt.cloneNode(true));
         cln.hidden = false;
+        cln.id = "";
         this.html.appendChild(cln);
     }
 
@@ -133,7 +135,7 @@ function validateCheckboxes(question) {
             ok = false;
         }
         if(answer.checked)
-            answer.correction.show();
+            answer.correction.show(false, ok);
     };
     return ok;
 }

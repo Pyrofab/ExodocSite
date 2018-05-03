@@ -5,9 +5,11 @@
     <meta charset="UTF-8"/>
     <script src="https://unpkg.com/mathjs@4.1.0/dist/math.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-1.35.2.min.js"></script>
-    <script src="main.js"></script>
-    <script src="validation.js"></script>
-    <link href="style.css" rel="stylesheet" type="text/css">
+    <script src="script/main.js"></script>
+    <script src="script/validation.js"></script>
+    <link href="css/01_box_fluid.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
     </head>
     <body>
@@ -38,6 +40,7 @@
         }
     });
     </script>
+    <div id="content">
     
 <h1 id="spécification-du-markdown-exodoc">Spécification du Markdown Exodoc</h1>
 <h2 id="les-zones-de-texte-cachées">Les zones de texte cachées</h2>
@@ -88,13 +91,22 @@ Note: Les variables sont interpolées séquentiellement, il est donc possible de
 <script>{
   let xValues = math.range(-1,10,0.01).toArray();
   const exprArr=["sqrt(x)","x"]
-  const data = exprArr.map(ex => {
-    const expr = math.compile(ex);
-    // use the global parser's scope without altering it
-    yValues = xValues.map(x => expr.eval(Object.assign({}, parser.scope, {x: x})));
-    return {x: xValues, y: yValues, type: "scatter"};
-  });
-  Plotly.newPlot("plot0", data);
+     const data = exprArr.map(ex => {
+        const expr = math.compile(ex);
+        // use the global parser's scope without altering it
+        yValues = xValues.map(x => expr.eval(Object.assign({}, parser.scope, {x: x})));
+        return {x: xValues, y: yValues, type: "scatter"};
+   });
+   const layout = {
+        title: 'Test',
+        paper_bgcolor:"#666",
+        plot_bgcolor: "#666",
+        font: {
+            color: "#ccc"
+        }
+    }
+  
+  Plotly.newPlot("plot0", data, layout);
 }</script>
 <pre><code>```plot
 min=-1
@@ -178,10 +190,10 @@ registerValidator("question_2", question => {
     question.correction.text = "coucou";
     question.answer_1.htmlElement.style.display = "none";
   }
-  if(question.answer_2.isChecked()) {
-    question.correction_2.view = "correction";
-    question.correction_2.show();
-  } else question.correction_2.html.style.color ="";
+  if(question.answer_3.isChecked()) {
+    question.correction_3.view = "correction";
+    question.correction_3.show();
+  } else question.correction_3.html.style.color ="";
 });
 </script>
             <button class="check_answer">Soumettre</button>
@@ -328,9 +340,9 @@ Question 5
 </div>
 <script>registerValidator("question_5", question => {switch(question.answer_1.value) {
 
-case   "x^2" : question.correction_1.color("red").show("Cette formule donne l'aire du carré.")
+case   "x^2" : question.correction_1.show("Cette formule donne l'aire du carré.", false)
 break;
-case   "4x": question.correction_1.color("green").show("Exactement comme dans la correction.")
+case   "4x": question.correction_1.show("Exactement comme dans la correction.", true)
 break;
 case   "dinosaure" :
     question.correction_1.view = "dinosaure"
@@ -370,7 +382,7 @@ when question.answer_1.value {
 <li>Que vaut le périmètre d’un cercle de rayon <span class="math inline">\(r\)</span> ?</li>
 </ol>
 <ul>
-<li><label for=question_6_answer_1 data-original="P(r)="><span class="math inline">\(P(r)=\)</span></label><input type="text" class="function_input" name=" Question 6" id="question_6_answer_1" data-function="PI*r*2"/></li>
+<li><label data-original="P(r)="><span class="math inline">\(P(r)=\)</span></label><input type="text" class="function_input" name=" Question 6"data-function="PI*r*2"/></li>
 </ul>
 <ol start="2" type="a">
 <li>Que vaut l’aire d’un disque de rayon <span class="math inline">\(r\)</span> ?</li>
@@ -385,8 +397,8 @@ when question.answer_1.value {
 <pre><code>### *Question 6* {.exercise}
 
 a) Que vaut le périmètre d&#39;un cercle de rayon $r$ ?
-  - &lt;label for=question_6_answer_1 data-original=&quot;P(r)=&quot;&gt;$P(r)=$&lt;/label&gt;&lt;input type=&quot;text&quot; class=&quot;function_input&quot; name=&quot; Question 6&quot; id=&quot;question_6_answer_1&quot; data-function=&quot;PI*r*2&quot;/&gt;
+  - &lt;label data-original=&quot;P(r)=&quot;&gt;$P(r)=$&lt;/label&gt;&lt;input class=&quot;function_input&quot; name=&quot; Question 6&quot; data-function=&quot;PI*r*2&quot;/&gt;
 b) Que vaut l&#39;aire d&#39;un disque de rayon $r$ ?
-  - &lt;label for=question_6_answer_2 data-original=&quot;P(r)=&quot;&gt;$A(r)=$&lt;/label&gt;&lt;input type=&quot;text&quot; class=&quot;function_input&quot; name=&quot; Question 6&quot; id=&quot;question_6_answer_2&quot; data-function=&quot;PI*r^2&quot;/&gt;
+  - &lt;label data-original=&quot;P(r)=&quot;&gt;$A(r)=$&lt;/label&gt;&lt;input class=&quot;function_input&quot; name=&quot; Question 6&quot; data-function=&quot;PI*r^2&quot;/&gt;
 
 ---</code></pre>
