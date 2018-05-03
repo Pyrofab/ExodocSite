@@ -86,7 +86,6 @@ img {
     font-weight: bold;
     margin-top: 0;
     margin-bottom: 0;
-    /* must be combined with nobr in html for ie5win */
 }
 .tiny {
     font-size: 9px;
@@ -95,20 +94,13 @@ img {
     margin-bottom: 5px; 
 }
 #content {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    margin: 20px;
     background: #666;
-    border: 5px solid #ccc;
-    padding: 10px 10% 10px 15%;
+    border: 0.3em solid #ccc;
     voice-family: "\"}\"";
     voice-family:inherit;
-    padding: 10px 9% 10px 11%;
-}
-html>body #content {
-    width: 70%;
-    padding: 10px 9% 10px 11%;
+    margin: 2em 9%;
+    padding: 10px 10% 10px 10%;
+    width: 60%;
 }
 pre {
     font-size: 12px;

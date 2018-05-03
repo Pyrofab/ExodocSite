@@ -40,6 +40,7 @@
         }
     });
     </script>
+    <div>
     <div id="content">
     
 <h1 id="spécification-du-markdown-exodoc">Spécification du Markdown Exodoc</h1>
@@ -89,26 +90,48 @@ Note: Les variables sont interpolées séquentiellement, il est donc possible de
 <p>Ces zones de texte définissent des paramètres pour un graphe Plotly:</p>
 <div id="plot0"></div>
 <script>{
-  let xValues = math.range(-1,10,0.01).toArray();
-  const exprArr=["sqrt(x)","x"]
-     const data = exprArr.map(ex => {
-        const expr = math.compile(ex);
-        // use the global parser's scope without altering it
-        yValues = xValues.map(x => expr.eval(Object.assign({}, parser.scope, {x: x})));
-        return {x: xValues, y: yValues, type: "scatter"};
-   });
-   const layout = {
-        title: 'Test',
-        paper_bgcolor:"#666",
-        plot_bgcolor: "#666",
-        font: {
-            color: "#ccc"
+    (function() {
+        let xValues = math.range(-1,10,0.01).toArray();
+        const exprArr=["sqrt(x)","x"]
+        const data = exprArr.map(ex => {
+            const expr = math.compile(ex);
+            // use the global parser's scope without altering it
+            yValues = xValues.map(x => expr.eval(Object.assign({}, parser.scope, {x: x})));
+            return {x: xValues, y: yValues, type: "scatter"};
+        });
+        const layout = {
+            title: 'Comparaison des croissances de x et de sa racine carrée',
+            paper_bgcolor:"#666",
+            plot_bgcolor: "#666",
+            font: {
+                color: "#ccc"
+            }
         }
-    }
-  
-  Plotly.newPlot("plot0", data, layout);
+
+        const d3 = Plotly.d3;
+
+        const WIDTH_IN_PERCENT_OF_PARENT = 100,
+            HEIGHT_IN_PERCENT_OF_PARENT = 70;
+
+        const gd3 = d3.select('#plot0')
+            .style({
+                width: WIDTH_IN_PERCENT_OF_PARENT + '%',
+                'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
+
+                //height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
+                //'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
+            });
+
+        const gd = gd3.node();
+        Plotly.newPlot(gd, data, layout);
+        window.onresize = function() {
+            Plotly.Plots.resize(gd);
+        };
+
+    })();
 }</script>
 <pre><code>```plot
+title=Comparaison des croissances de x et de sa racine carrée
 min=-1
 max=10
 step=0.01
@@ -402,3 +425,6 @@ b) Que vaut l&#39;aire d&#39;un disque de rayon $r$ ?
   - &lt;label data-original=&quot;P(r)=&quot;&gt;$A(r)=$&lt;/label&gt;&lt;input class=&quot;function_input&quot; name=&quot; Question 6&quot; data-function=&quot;PI*r^2&quot;/&gt;
 
 ---</code></pre>
+    </div>
+    </div>
+    </body>
