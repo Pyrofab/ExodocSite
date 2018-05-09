@@ -5,10 +5,10 @@
     <meta charset="UTF-8"/>
     <script src="https://unpkg.com/mathjs@4.1.0/dist/math.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-1.35.2.min.js"></script>
-    <script src="script/main.js"></script>
-    <script src="script/validation.js"></script>
-    <link href="css/01_box_fluid.css" rel="stylesheet" type="text/css">
-    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="main.js"></script>
+    <script src="validation.js"></script>
+    <link href="01_box_fluid.css" rel="stylesheet" type="text/css">
+    <link href="style.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
     </head>
@@ -40,7 +40,6 @@
         }
     });
     </script>
-    <div>
     <div id="content">
     
 <h1 id="spécification-du-markdown-exodoc">Spécification du Markdown Exodoc</h1>
@@ -50,7 +49,7 @@
 Bonjour, ce texte ne sera jamais affiché
 ```</code></pre>
 <h2 id="les-spoilers">Les spoilers</h2>
-<p>Les sections commançant par un titre ayant la classe <code>spoiler</code> n’affichent que le titre mais peuvent être révélés en cliquant sur celui-ci.</p>
+<p>Les sections<sup><a href="#">[1]</a></sup> commançant par un titre ayant la classe <code>spoiler</code> n’affichent que le titre mais peuvent être révélés en cliquant sur celui-ci.</p>
 <div class="spoiler">
 <h3 id="spoiler" class="spoiler">Spoiler</h3>
 <p>Bonjour, ceci est un spoiler<br/></p>
@@ -66,69 +65,49 @@ Bonjour, ceci est un spoiler
 <pre><code>```mathjs
 x=randomInt(0,5);
 x=x+1;
-y=round(random(-100,100), 3); #assigne à y un nombre réel entre -100 et 100, arrondi à 3 décimales
+y=round(
+    random(-100,100), 
+    3
+); #assigne à y un nombre réel entre -100 et 100, arrondi à 3 décimales
 z=3
 ```</code></pre>
-<p>L’instruction MathJax <code>\mjs{expression}</code> permet d’afficher d’afficher le résultat d’une expression à l’aide des variables calculées dans les blocs <code>eval</code>:</p>
-<span hidden class="math inline">\(\eval{ reponse=x         ^5 #ligne continuée par l"absence de ";"
-}\)</span>
+<p>On peut ici voir que la ligne <code>y=round(random(-100,100), 3);</code> a été scindée grâce à l’absence de ‘;’ précédant la fin des trois premières lignes.</p>
+<p>L’instruction MathJax <code>\mjs{expression}</code> permet d’afficher le résultat d’une expression à l’aide des variables calculées dans les blocs <code>mathjs</code>:</p>
+<span hidden class="math inline">\(\eval{ reponse=x^5}\)</span>
 <blockquote>
 <p>La réponse était <span class="math inline">\(\mjs{reponse}\)</span>. En effet, <span class="math inline">\(\mjs{x}^5 = \mjs{reponse}\)</span></p>
 </blockquote>
 <pre><code>```mathjs
-reponse=x
-            ^5 #ligne continuée par l&#39;absence de &#39;;&#39;
+reponse=x^5
 ```
-&gt; La réponse était $reponse
-&gt; En effet, $x^5 = $reponse</code></pre>
-<p>On peut ici voir que la ligne <code>reponse=x^5</code> a été scindée grâce à l’absence de ‘;’ précédant la fin de la ligne.<br />
-Note: Les variables sont interpolées séquentiellement, il est donc possible de les redéfinir entre 2 affichages.</p>
-<p>De la même manière, il est possible d’exécuter du javascript au sein d’un bloc MathJax avec l’instruction <code>js</code>. L’utilisation de cette commande est toutefois découragée car elle peut causer des comportements inattendus.</p>
+&gt; La réponse était $\mjs{reponse}$.
+&gt; En effet, $\mjs{x}^5 = \mjs{reponse}$</code></pre>
+<p>Note: Les variables sont interpolées séquentiellement, il est donc possible de les redéfinir entre deux affichages.</p>
+<p>De la même manière, il est possible d’exécuter du JavaScript au sein d’un bloc MathJax avec l’instruction <code>js</code>. L’utilisation de cette commande est toutefois découragée car elle peut causer des comportements inattendus.</p>
 <p><span class="math display">\[\js{new Date()}\]</span></p>
 <pre><code>$$\js{new Date()}$$</code></pre>
 <h2 id="les-graphes">Les graphes</h2>
 <p>Ces zones de texte définissent des paramètres pour un graphe Plotly:</p>
 <div id="plot0"></div>
 <script>{
-    (function() {
-        let xValues = math.range(-1,10,0.01).toArray();
-        const exprArr=["sqrt(x)","x"]
-        const data = exprArr.map(ex => {
-            const expr = math.compile(ex);
-            // use the global parser's scope without altering it
-            yValues = xValues.map(x => expr.eval(Object.assign({}, parser.scope, {x: x})));
-            return {x: xValues, y: yValues, type: "scatter"};
-        });
-        const layout = {
-            title: 'Comparaison des croissances de x et de sa racine carrée',
-            paper_bgcolor:"#666",
-            plot_bgcolor: "#666",
-            font: {
-                color: "#ccc"
-            }
+  let xValues = math.range(-1,10,0.01).toArray();
+  const exprArr=["sqrt(x)","x"]
+     const data = exprArr.map(ex => {
+        const expr = math.compile(ex);
+        // use the global parser's scope without altering it
+        yValues = xValues.map(x => expr.eval(Object.assign({}, parser.scope, {x: x})));
+        return {x: xValues, y: yValues, type: "scatter"};
+   });
+   const layout = {
+        title: 'Comparaison des croissances de x et de sa racine carrée',
+        paper_bgcolor:"#666",
+        plot_bgcolor: "#666",
+        font: {
+            color: "#ccc"
         }
-
-        const d3 = Plotly.d3;
-
-        const WIDTH_IN_PERCENT_OF_PARENT = 100,
-            HEIGHT_IN_PERCENT_OF_PARENT = 70;
-
-        const gd3 = d3.select('#plot0')
-            .style({
-                width: WIDTH_IN_PERCENT_OF_PARENT + '%',
-                'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
-
-                //height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
-                //'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
-            });
-
-        const gd = gd3.node();
-        Plotly.newPlot(gd, data, layout);
-        window.onresize = function() {
-            Plotly.Plots.resize(gd);
-        };
-
-    })();
+    }
+  
+  Plotly.newPlot("plot0", data, layout);
 }</script>
 <pre><code>```plot
 title=Comparaison des croissances de x et de sa racine carrée
@@ -140,7 +119,7 @@ expr=[&quot;sqrt(x)&quot;,&quot;x&quot;]
 <h2 id="les-questionnaires">Les questionnaires</h2>
 <p>Un header ayant la classe <code>exercise</code> indique le début d’une question dans le cadre d’un questionnaire. Le titre est utilisé comme légende, le texte libre en dessous sera affiché normalement. Il est possible de terminer un bloc de question avant le header suivant en utilisant une barre horizontale (<code>---</code>)</p>
 <h3 id="questions-à-choix-multiples">Questions à choix multiples</h3>
-<p>Les symboles <code>[ ]</code> en début de ligne généreront des réponses avec checkbox (plusieurs réponses possibles) tandis que les symboles <code>( )</code> généreront des réponses avec boutons radio (une seule réponse valide).</p>
+<p>Les symboles <code>[ ]</code> en début de ligne généreront des réponses avec checkbox (plusieurs réponses possibles) tandis que les symboles <code>( )</code> généreront des réponses avec boutons radio (une seule réponse valide). Si le caractère du milieu est autre chose qu’un espace, la réponse sera considérée comme valide. Une citation dans une réponse sera affichée lors de la correction. Si il s’agit d’une bonne réponse, elle sera affichée en vert, sinon elle sera affichée en rouge.</p>
 <p>Les réponses possibles seront mélangées à chaque rechargement de la page. Seules les réponses adjacentes sont mélangées entre elles.</p>
 <fieldset class="question" id="question_1">
 <legend>
@@ -168,13 +147,20 @@ En soit ce n’est pas faux
             <div class="correction_field"></div>
             </fieldset>
             <script>populateQuestion("question_1")</script>
-<p>Dans cet exemple, les réponses <code>oui</code> et <code>non</code> sont mélangées à chaque rechargement de la page, mais <code>Kamoulox</code> reste toujours la dernière réponse.</p>
-<pre><code>### Question 1{.exercise} 
+<pre><code>### Question 1{.exercise}
 Est-il possible de caresser un léopard ?
 
 - [ ] Oui
+
+  &gt; `Haha what`
+
 - [ ] Non
+  
+  &gt; En soit ce n&#39;est pas faux
+
 - [x] Kamoulox
+
+  &gt; *Seuls les connaisseurs sauront*
 
 ---</code></pre>
 <p><br/></p>
@@ -187,17 +173,23 @@ Question 2
 <p>x vaut <span class="math inline">\(\mjs{x}\)</span> et y vaut <span class="math inline">\(\mjs{y}\)</span>.<br/> Combien vaut <code>x + y</code> ?<br/></p>
 <ul>
 <li><input type="radio" data-valid=false name="question_2">
-<label data-original=" \mjs{reponse1}"><span> <span class="math inline">\(\mjs{reponse1}\)</span></span></label></li>
+<label data-original=" \mjs{reponse1}"><span> <span class="math inline">\(\mjs{reponse1}\)</span></span></label>
+<span class="correction_field" hidden>
+<br/> Mauvaise réponse !
+</span></li>
 <li><input type="radio" data-valid=true name="question_2">
-<label data-original=" \mjs{x+y}"><span> <span class="math inline">\(\mjs{x+y}\)</span></span></label></li>
+<label data-original=" \mjs{x+y}"><span> <span class="math inline">\(\mjs{x+y}\)</span></span></label>
+<span class="correction_field" hidden>
+Coucou
+</span></li>
 <li><div>
 <input type="radio" data-valid=false name="question_2">
 <label data-original=" Ne sait pas"><span> Ne sait pas</span></label>
-</div></li>
+</div>
+<span class="correction_field" hidden>
+<br/> Mauvaise réponse !
+</span></li>
 </ul>
-<script>registerValidator("question_2", question => {  question.correction_2.view = "correction";
-  for (a of question.answers) a.correction.def= "<br/>mauvaise réponse !";});
-</script>
 <div id="correction" hidden="">
 <p>Oops !</p>
 <div class="spoiler">
@@ -210,14 +202,12 @@ Indice
 <script>
 registerValidator("question_2", question => {
   if(question.answer_1.isChecked()) {
-    question.correction.text = "coucou";
     question.answer_1.htmlElement.style.display = "none";
   }
   if(question.answer_3.isChecked()) {
     question.correction_3.view = "correction";
     question.correction_3.show();
-  } else question.correction_3.html.style.color ="";
-});
+  }});
 </script>
             <button class="check_answer">Soumettre</button>
             <div class="correction_field"></div>
@@ -232,13 +222,16 @@ x vaut $\mjs{x}$ et y vaut $\mjs{y}$.&lt;br/&gt;
 Combien vaut `x + y` ?&lt;br/&gt;
 
 - ( ) $\mjs{reponse1}$
+
+  &gt; &lt;br/&gt; Mauvaise réponse !
+
 - (+) $\mjs{x+y}$
+
+  &gt; Coucou
+
 - &lt;div&gt;( ) Ne sait pas&lt;/div&gt;
 
-```correction
-  question.correction_1.view = &quot;correction&quot;;
-  for (a of question.answers) a.correction.default = &quot;&lt;br/&gt;mauvaise réponse !&quot;;
-```
+  &gt; &lt;br/&gt; Mauvaise réponse !
 
 &lt;div id=&quot;correction&quot; hidden&gt;
 Oops !
@@ -252,18 +245,15 @@ $$1+1=2$$
 &lt;/div&gt;
 
 
-&lt;script&gt;
-registerValidator(&quot;@current@&quot;, question =&gt; {
+```correction
   if(question.answer_1.isChecked()) {
-    question.correction.text = &quot;coucou&quot;;
-    question.answer_2.htmlElement.style.display = &quot;none&quot;;
+    question.answer_1.htmlElement.style.display = &quot;none&quot;; // Rend la première réponse invisible quand elle est cochée
   }
-  if(question.answer_2.isChecked()) {
-    question.correction_2.view = &quot;correction&quot;;
-    question.correction_2.show();
-  } else question.correction_2.html.style.color =&quot;&quot;;
-});
-&lt;/script&gt;
+  if(question.answer_3.isChecked()) {
+    question.correction_3.view = &quot;correction&quot;; // Affiche l&#39;élément HTML ayant l&#39;id &quot;correction&quot; quand la réponse 3 est cochée
+    question.correction_3.show();
+  }});
+```
 
 ---</code></pre>
 <span hidden class="math inline">\(\eval{ reponse1 = 1; reponse2 = 2;}\)</span>
@@ -425,6 +415,3 @@ b) Que vaut l&#39;aire d&#39;un disque de rayon $r$ ?
   - &lt;label data-original=&quot;P(r)=&quot;&gt;$A(r)=$&lt;/label&gt;&lt;input class=&quot;function_input&quot; name=&quot; Question 6&quot; data-function=&quot;PI*r^2&quot;/&gt;
 
 ---</code></pre>
-    </div>
-    </div>
-    </body>
