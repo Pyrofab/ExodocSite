@@ -5,10 +5,14 @@
     <meta charset="UTF-8"/>
     <script src="https://unpkg.com/mathjs@4.1.0/dist/math.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-1.35.2.min.js"></script>
+    <script src="https://unpkg.com/esprima@~4.0/dist/esprima.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
     <script src="script/main.js"></script>
     <script src="script/validation.js"></script>
-    <link href="css/01_box_fluid.css" rel="stylesheet" type="text/css">
     <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/01_box_fluid.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
     </head>
@@ -40,16 +44,31 @@
         }
     });
     </script>
+    <script>hljs.initHighlightingOnLoad();</script>
     <div id="content">
     
 <h1 id="spécification-du-markdown-exodoc">Spécification du Markdown Exodoc</h1>
-<h2 id="les-zones-de-texte-cachées">Les zones de texte cachées</h2>
-<p>Ces zones n’apparaissent pas dans le document HTML résultant</p>
-<pre><code>```hidden
-Bonjour, ce texte ne sera jamais affiché
-```</code></pre>
+<h2 id="préambule">Préambule</h2>
+<p>Ce document vise à détailler les spécificités de la variante de Markdown mise au point au cours du projet 20 AVOSTTI - Exodoc. Pour une introduction au Markdown standard, vous pouvez vous réferrer à <a href="https://www.markdowntutorial.com/">ce tutoriel</a> (en anglais).</p>
+<h2 id="sections">Les sections</h2>
+<p>Une section est un bloc de texte ayant des propriétés spécifiques. Elle commence par un titre avec une classe (<code># titre {.classe}</code>) et se termine au prochain titre de niveau égal ou inférieur. Il est possible de terminer une section avant le titre suivant en utilisant une barre horizontale (<code>---</code>). Exemple:</p>
+<pre><code># Section 1 {.spoiler}
+Abc
+
+## Section 2 {.exercise}
+def
+
+## Section 3 {.spoiler}
+ghi
+
+# Section 4 {.spoiler}
+jkl
+
+---
+mno</code></pre>
+<p>Ici, la section 1 est un spoiler contenant “Abc” et les sections 2 et 3. La section 2 est un exercice contenant “def”, la section 3 est un spoiler contenant “ghi” et la section 4 est un spoiler contenant “jkl”. Les sections 1 et 2 s’arrêtent respectivement là où les sections 4 et 3 commencent car elles sont de niveaux équivalents. La section 3 s’arrête là où la section 4 commence car il s’agit d’un titre de niveau inférieur. La section 4 s’arrête à la barre horizontale. “mno” n’est donc dans aucune section spécifique.</p>
 <h2 id="les-spoilers">Les spoilers</h2>
-<p>Les sections<sup><a href="#">[1]</a></sup> commançant par un titre ayant la classe <code>spoiler</code> n’affichent que le titre mais peuvent être révélés en cliquant sur celui-ci.</p>
+<p>Les sections<sup><a href="#sections">[1]</a></sup> commençant par un titre ayant la classe <code>spoiler</code> n’affichent que le titre mais peuvent être révélés en cliquant sur celui-ci.</p>
 <div class="spoiler">
 <h3 id="spoiler" class="spoiler">Spoiler</h3>
 <p>Bonjour, ceci est un spoiler<br/></p>
@@ -116,8 +135,8 @@ max=10
 step=0.01
 expr=[&quot;sqrt(x)&quot;,&quot;x&quot;]
 ```</code></pre>
-<h2 id="les-questionnaires">Les questionnaires</h2>
-<p>Un header ayant la classe <code>exercise</code> indique le début d’une question dans le cadre d’un questionnaire. Le titre est utilisé comme légende, le texte libre en dessous sera affiché normalement. Il est possible de terminer un bloc de question avant le header suivant en utilisant une barre horizontale (<code>---</code>)</p>
+<h2 id="questionnaires">Les questionnaires</h2>
+<p>Une section<sup><a href="#sections">[1]</a></sup> ayant la classe <code>exercise</code> est interprétée comme une question dans le cadre d’un questionnaire. Le titre est utilisé comme légende, le texte libre en dessous sera affiché normalement.</p>
 <h3 id="questions-à-choix-multiples">Questions à choix multiples</h3>
 <p>Les symboles <code>[ ]</code> en début de ligne généreront des réponses avec checkbox (plusieurs réponses possibles) tandis que les symboles <code>( )</code> généreront des réponses avec boutons radio (une seule réponse valide). Si le caractère du milieu est autre chose qu’un espace, la réponse sera considérée comme valide. Une citation dans une réponse sera affichée lors de la correction. Si il s’agit d’une bonne réponse, elle sera affichée en vert, sinon elle sera affichée en rouge.</p>
 <p>Les réponses possibles seront mélangées à chaque rechargement de la page. Seules les réponses adjacentes sont mélangées entre elles.</p>
@@ -164,7 +183,6 @@ Est-il possible de caresser un léopard ?
 
 ---</code></pre>
 <p><br/></p>
-<p>Il est possible d’utiliser l’interpolation de variable pour créer des macros:</p>
 <span hidden class="math inline">\(\eval{ reponse1=round(sqrt(x) + sin(y), 3)}\)</span>
 <fieldset class="question" id="question_2">
 <legend>
@@ -182,33 +200,18 @@ Question 2
 <span class="correction_field" hidden>
 Coucou
 </span></li>
-<li><div>
-<input type="radio" data-valid=false name="question_2">
+<li><input type="radio" data-valid=false name="question_2">
 <label data-original=" Ne sait pas"><span> Ne sait pas</span></label>
-</div>
 <span class="correction_field" hidden>
-<br/> Mauvaise réponse !
-</span></li>
-</ul>
-<div id="correction" hidden="">
-<p>Oops !</p>
+Oops !
 <div class="spoiler">
 <h5>
 Indice
 </h5>
 <p><span class="math display">\[1+1=2\]</span></p>
 </div>
-</div>
-<script>
-registerValidator("question_2", question => {
-  if(question.answer_1.isChecked()) {
-    question.answer_1.htmlElement.style.display = "none";
-  }
-  if(question.answer_3.isChecked()) {
-    question.correction_3.view = "correction";
-    question.correction_3.show();
-  }});
-</script>
+</span></li>
+</ul>
             <button class="check_answer">Soumettre</button>
             <div class="correction_field"></div>
             </fieldset>
@@ -229,31 +232,13 @@ Combien vaut `x + y` ?&lt;br/&gt;
 
   &gt; Coucou
 
-- &lt;div&gt;( ) Ne sait pas&lt;/div&gt;
+- ( ) Ne sait pas
 
-  &gt; &lt;br/&gt; Mauvaise réponse !
-
-&lt;div id=&quot;correction&quot; hidden&gt;
-Oops !
-
-&lt;div class=&quot;spoiler&quot;&gt;
-&lt;h5&gt;Indice&lt;/h5&gt;
-
-$$1+1=2$$
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-
-```correction
-  if(question.answer_1.isChecked()) {
-    question.answer_1.htmlElement.style.display = &quot;none&quot;; // Rend la première réponse invisible quand elle est cochée
-  }
-  if(question.answer_3.isChecked()) {
-    question.correction_3.view = &quot;correction&quot;; // Affiche l&#39;élément HTML ayant l&#39;id &quot;correction&quot; quand la réponse 3 est cochée
-    question.correction_3.show();
-  }});
-```
+  &gt; Oops !
+  &gt; &lt;div class=&quot;spoiler&quot;&gt;
+  &gt; &lt;h5&gt;Indice&lt;/h5&gt;
+  &gt; $$1+1=2$$
+  &gt; &lt;/div&gt;
 
 ---</code></pre>
 <span hidden class="math inline">\(\eval{ reponse1 = 1; reponse2 = 2;}\)</span>
@@ -342,16 +327,47 @@ b) Que permet de faire un coefficient binomial ?
 <p>La réponse n’aura pas besoin d’être strictement identique à la réponse officielle, toute formule équivalente sera acceptée.</p>
 <fieldset class="question" id="question_5">
 <legend>
-Question 5
+<em>Question 5</em>
+</legend>
+<ol type="a">
+<li>Que vaut le périmètre d’un cercle de rayon <span class="math inline">\(r\)</span> ?</li>
+</ol>
+<ul>
+<li><label data-original="P(r)="><span class="math inline">\(P(r)=\)</span></label><input type="text" class="function_input" name=" Question 5"data-function="PI*r*2"/></li>
+</ul>
+<ol start="2" type="a">
+<li>Que vaut l’aire d’un disque de rayon <span class="math inline">\(r\)</span> ?</li>
+</ol>
+<ul>
+<li><label for=question_5_answer_2 data-original="P(r)="><span class="math inline">\(A(r)=\)</span></label><input type="text" class="function_input" name=" Question 5" id="question_5_answer_2" data-function="PI*r^2"/></li>
+</ul>
+            <button class="check_answer">Soumettre</button>
+            <div class="correction_field"></div>
+            </fieldset>
+            <script>populateQuestion("question_5")</script>
+<pre><code>### *Question 5* {.exercise}
+
+a) Que vaut le périmètre d&#39;un cercle de rayon $r$ ?
+  - &lt;label data-original=&quot;P(r)=&quot;&gt;$P(r)=$&lt;/label&gt;&lt;input class=&quot;function_input&quot; name=&quot; Question 5&quot; data-function=&quot;PI*r*2&quot;/&gt;
+b) Que vaut l&#39;aire d&#39;un disque de rayon $r$ ?
+  - &lt;label data-original=&quot;P(r)=&quot;&gt;$A(r)=$&lt;/label&gt;&lt;input class=&quot;function_input&quot; name=&quot; Question 5&quot; data-function=&quot;PI*r^2&quot;/&gt;
+
+---</code></pre>
+<p><br/></p>
+<h3 id="pour-aller-plus-loin">Pour aller plus loin</h3>
+<p>Il est possible d’utiliser du JavaScript pour spécifier des comportements plus avancés lors de la correction.</p>
+<fieldset class="question" id="question_6">
+<legend>
+Question 6
 </legend>
 <p>Que vaut le périmètre d’un carré de côté <span class="math inline">\(x\)</span> ?</p>
 <ul>
-<li><label for=question_5_answer_1 data-original="P(x)="><span class="math inline">\(P(x)=\)</span></label><input type="text" class="function_input" name=" Question 5" id="question_5_answer_1" data-function="4x"/></li>
+<li><label for=question_6_answer_1 data-original="P(x)="><span class="math inline">\(P(x)=\)</span></label><input type="text" class="function_input" name=" Question 6" id="question_6_answer_1" data-function="4x"/></li>
 </ul>
 <div id="dinosaure" hidden="">
 <p><img height="42" width="42" src="https://pre00.deviantart.net/9532/th/pre/i/2015/106/2/d/denver_the_last_dinosaur_by_eligecos-d7ubr4p.png"/></p>
 </div>
-<script>registerValidator("question_5", question => {switch(question.answer_1.value) {
+<script>registerValidator("question_6", question => {switch(question.answer_1.value) {
 
 case   "x^2" : question.correction_1.show("Cette formule donne l'aire du carré.", false)
 break;
@@ -365,12 +381,11 @@ case   "dinosaure" :
             <button class="check_answer">Soumettre</button>
             <div class="correction_field"></div>
             </fieldset>
-            <script>populateQuestion("question_5")</script>
-<p>Ici, les réponses <code>4x</code>, <code>x*4</code>, <code>4*x</code> et <code>x+x+x+x</code> sont toutes acceptées.</p>
-<pre><code>### Question 5 {.exercise}
+            <script>populateQuestion("question_6")</script>
+<pre><code>#### Question 6 {.exercise}
 Que vaut le périmètre d&#39;un carré de côté $x$ ?
 
-  - &lt;label for=question_5_answer_1 data-original=&quot;P(x)=&quot;&gt;$P(x)=$&lt;/label&gt;&lt;input type=&quot;text&quot; class=&quot;function_input&quot; name=&quot; Question 5&quot; id=&quot;question_5_answer_1&quot; data-function=&quot;4x&quot;/&gt;
+  - &lt;label for=question_6_answer_1 data-original=&quot;P(x)=&quot;&gt;$P(x)=$&lt;/label&gt;&lt;input type=&quot;text&quot; class=&quot;function_input&quot; name=&quot; Question 6&quot; id=&quot;question_6_answer_1&quot; data-function=&quot;4x&quot;/&gt;
 
 &lt;div id=&quot;dinosaure&quot; hidden&gt;
 &lt;img height=&quot;42&quot; width=&quot;42&quot; src=&quot;https://pre00.deviantart.net/9532/th/pre/i/2015/106/2/d/denver_the_last_dinosaur_by_eligecos-d7ubr4p.png&quot;/&gt;
@@ -387,31 +402,16 @@ when question.answer_1.value {
 ```
 ---</code></pre>
 <p><br/></p>
-<fieldset class="question" id="question_6">
-<legend>
-<em>Question 6</em>
-</legend>
-<ol type="a">
-<li>Que vaut le périmètre d’un cercle de rayon <span class="math inline">\(r\)</span> ?</li>
-</ol>
-<ul>
-<li><label data-original="P(r)="><span class="math inline">\(P(r)=\)</span></label><input type="text" class="function_input" name=" Question 6"data-function="PI*r*2"/></li>
-</ul>
-<ol start="2" type="a">
-<li>Que vaut l’aire d’un disque de rayon <span class="math inline">\(r\)</span> ?</li>
-</ol>
-<ul>
-<li><label for=question_6_answer_2 data-original="P(r)="><span class="math inline">\(A(r)=\)</span></label><input type="text" class="function_input" name=" Question 6" id="question_6_answer_2" data-function="PI*r^2"/></li>
-</ul>
-            <button class="check_answer">Soumettre</button>
-            <div class="correction_field"></div>
-            </fieldset>
-            <script>populateQuestion("question_6")</script>
-<pre><code>### *Question 6* {.exercise}
-
-a) Que vaut le périmètre d&#39;un cercle de rayon $r$ ?
-  - &lt;label data-original=&quot;P(r)=&quot;&gt;$P(r)=$&lt;/label&gt;&lt;input class=&quot;function_input&quot; name=&quot; Question 6&quot; data-function=&quot;PI*r*2&quot;/&gt;
-b) Que vaut l&#39;aire d&#39;un disque de rayon $r$ ?
-  - &lt;label data-original=&quot;P(r)=&quot;&gt;$A(r)=$&lt;/label&gt;&lt;input class=&quot;function_input&quot; name=&quot; Question 6&quot; data-function=&quot;PI*r^2&quot;/&gt;
-
----</code></pre>
+<hr />
+<p><br/></p>
+<h2 id="bonus-les-zones-de-texte-cachées">Bonus: Les zones de texte cachées</h2>
+<p>Ces zones n’apparaissent pas dans le document HTML résultant</p>
+<pre><code>```hidden
+Bonjour, ce texte ne sera jamais affiché
+```</code></pre>
+<p><br/></p>
+<hr />
+<p><br/><br/></p>
+<footer>
+Site réalisé dans le cadre du projet AVOSTTI
+</footer>
