@@ -1,5 +1,13 @@
 "use strict";
+/**
+ * Override script file used when the user's answers are to be sent by mail
+ * to be manually corrected
+ */
 
+
+/**
+ * Called when the user clicks the send button
+ */
 function submitForm() {
   let mail ="";
   questions.forEach((value, key) => mail += `${key}\n<br/>\n${value.validate()}\n<hr/>`);
@@ -9,6 +17,9 @@ function submitForm() {
   return false;
 }
 
+/**
+ * Override the question class to change the validation behaviour
+ */
 Question = class extends Question {
   constructor(htmlElement, answers) {
     super(htmlElement, answers);
@@ -33,6 +44,13 @@ Question = class extends Question {
   }
 }
 
+/**
+ * Replaces a substring at the given index of {@code this} string
+ * with the given replacement
+ * @param {number} index
+ * @param {string} replacement
+ * @return {string} the string with the replacement done
+ */
 String.prototype.replaceAt=function(index, replacement) {
     return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
 }

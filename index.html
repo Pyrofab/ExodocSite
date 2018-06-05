@@ -3,17 +3,31 @@
     <head>
     <title>Exodoc Markdown Document</title>
     <meta charset="UTF-8"/>
+    <!--MathJS-->
     <script src="https://unpkg.com/mathjs@4.1.0/dist/math.min.js"></script>
+    <!--Plotly-->
     <script src="https://cdn.plot.ly/plotly-1.35.2.min.js"></script>
+    <!--Esprima-->
     <script src="https://unpkg.com/esprima@~4.0/dist/esprima.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
+    <!--Custom scripts-->
     <script src="script/main.js"></script>
     <script src="script/validation.js"></script>
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-    <link href="css/01_box_fluid.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+    <!--Materialize-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--Custom style-->
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <!--<link href="01_box_fluid.css" rel="stylesheet" type="text/css">-->
+
+    <!--Code highlight-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+    <!--MathJax-->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
     </head>
     <body>
@@ -45,67 +59,84 @@
     });
     </script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <div id="content">
+    <main>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo"><img height="64" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/P_polytech.png/120px-P_polytech.png"/></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="#sections">Sections</a></li>
+                    <li><a href="#les-secrets">Secrets</a></li>
+                    <li><a href="#les-zones-évaluées">MathJS</a></li>
+                    <li><a href="#les-graphes">Graphes</a></li>
+                    <li><a href="#questionnaires">Questionnaires</a></li>
+                </ul>
+            </div>
+        </nav>
+    <div id="content" class="container">
     
 <h1 id="spécification-du-markdown-exodoc">Spécification du Markdown Exodoc</h1>
 <h2 id="préambule">Préambule</h2>
 <p>Ce document vise à détailler les spécificités de la variante de Markdown mise au point au cours du projet 20 AVOSTTI - Exodoc. Pour une introduction au Markdown standard, vous pouvez vous réferrer à <a href="https://www.markdowntutorial.com/">ce tutoriel</a> (en anglais).</p>
-<h2 id="sections">Les sections</h2>
+<h2 id="utilisation-du-format-exodoc">Utilisation du format Exodoc</h2>
+<p>Le format Exodoc est un dérivé du Markdown, un langage de balisage léger créé par John Gruber en 2004. Il peut être écrit à l’aide de n’importe quel éditeur de texte standard (notepad, sublime text, vim…), cependant il existe des éditeurs spécialisés offrant quelques fonctionnalités pouvant accélérer le processus d’écriture (Typora, MarkdownPad…). Une fois le fichier écrit, il peut être converti en document HTML à l’aide de <a href="pandoc.org">Pandoc</a> et d’un filtre spécialisé. La conversion peut être faite grâce à l’application graphique dédiée ou à l’aide du terminal, à l’aide de la commande <code>pandoc -f markdown -t html --lua-filter filter.lua --mathjax &lt;document&gt; -o &lt;resultat&gt;</code>, où <code>&lt;document&gt;</code> est à remplacer par le nom du document au format exodoc à convertir et où <code>&lt;resultat&gt;</code> est à remplacer par le nom du fichier de sortie désiré.</p>
+<h2 id="ajouts-du-format">Ajouts du format</h2>
+<h3 id="sections">Les sections</h3>
 <p>Une section est un bloc de texte ayant des propriétés spécifiques. Elle commence par un titre avec une classe (<code># titre {.classe}</code>) et se termine au prochain titre de niveau égal ou inférieur. Il est possible de terminer une section avant le titre suivant en utilisant une barre horizontale (<code>---</code>). Exemple:</p>
-<pre><code># Section 1 {.spoiler}
-Abc
-
-## Section 2 {.exercise}
-def
-
-## Section 3 {.spoiler}
-ghi
-
-# Section 4 {.spoiler}
-jkl
-
----
-mno</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="fu"># Section 1 {.spoiler}</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">Abc</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="fu">## Section 2 {.exercise}</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">def</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="fu">## Section 3 {.spoiler}</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">ghi</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="fu"># Section 4 {.spoiler}</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">jkl</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">---</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">mno</a></code></pre></div>
 <p>Ici, la section 1 est un spoiler contenant “Abc” et les sections 2 et 3. La section 2 est un exercice contenant “def”, la section 3 est un spoiler contenant “ghi” et la section 4 est un spoiler contenant “jkl”. Les sections 1 et 2 s’arrêtent respectivement là où les sections 4 et 3 commencent car elles sont de niveaux équivalents. La section 3 s’arrête là où la section 4 commence car il s’agit d’un titre de niveau inférieur. La section 4 s’arrête à la barre horizontale. “mno” n’est donc dans aucune section spécifique.</p>
-<h2 id="les-spoilers">Les spoilers</h2>
-<p>Les sections<sup><a href="#sections">[1]</a></sup> commençant par un titre ayant la classe <code>spoiler</code> n’affichent que le titre mais peuvent être révélés en cliquant sur celui-ci.</p>
-<div class="spoiler">
-<h3 id="spoiler" class="spoiler">Spoiler</h3>
-<p>Bonjour, ceci est un spoiler<br/></p>
-</div>
-<pre><code>### Spoiler {.spoiler}
-Bonjour, ceci est un spoiler
----</code></pre>
-<h2 id="les-zones-évaluées">Les zones évaluées</h2>
+<h3 id="les-secrets">Les secrets</h3>
+<p>Les sections<sup><a href="#sections">[1]</a></sup> commençant par un titre ayant la classe <code>spoiler</code> n’affichent que le titre mais peuvent être révélées en cliquant sur celui-ci.</p>
+<ul class="collapsible"><li><div class="collapsible-header"><i class="material-icons">expand_more</i>
+Secret
+</div><div class="collapsible-body">
+<p>Bonjour, ceci est un secret<br/></p>
+</div></li></ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="fu">#### Spoiler {.spoiler}</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">Bonjour, ceci est un spoiler</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">---</a></code></pre></div>
+<h3 id="les-zones-évaluées">Les zones évaluées</h3>
 <p>Ces zones de texte sont évaluées <em>via</em> un parser MathJS. Toutes les fonctions disponibles sont documentées <a href="http://mathjs.org/docs/reference/functions.html">sur cette page</a>.</p>
 <p>Dans le cas où il y a plusieurs instructions, chacune doit obligatoirement se terminer par un point-virgule. Pour la dernière instruction, le point-virgule est facultatif. Les caractères <code>#</code> marquent des commentaires: rien de ce qui se trouve entre un <code>#</code> et la fin de la ligne ne sera exécuté.</p>
 <span hidden class="math inline">\(\eval{ x=randomInt(0,5); x=x+1; y=round(random(-100,100), 3); #assigne à y un nombre réel entre -100 et 100, arrondi à 3 décimales
  z=3}\)</span>
-<pre><code>```mathjs
-x=randomInt(0,5);
-x=x+1;
-y=round(
-    random(-100,100), 
-    3
-); #assigne à y un nombre réel entre -100 et 100, arrondi à 3 décimales
-z=3
-```</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb3-1" data-line-number="1">```mathjs</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">x=randomInt(0,5);</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">x=x+1;</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">y=round(</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="bn">    random(-100,100), </span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="bn">    3</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">); #assigne à y un nombre réel entre -100 et 100, arrondi à 3 décimales</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">z=3</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">```</a></code></pre></div>
 <p>On peut ici voir que la ligne <code>y=round(random(-100,100), 3);</code> a été scindée grâce à l’absence de ‘;’ précédant la fin des trois premières lignes.</p>
 <p>L’instruction MathJax <code>\mjs{expression}</code> permet d’afficher le résultat d’une expression à l’aide des variables calculées dans les blocs <code>mathjs</code>:</p>
 <span hidden class="math inline">\(\eval{ reponse=x^5}\)</span>
 <blockquote>
 <p>La réponse était <span class="math inline">\(\mjs{reponse}\)</span>. En effet, <span class="math inline">\(\mjs{x}^5 = \mjs{reponse}\)</span></p>
 </blockquote>
-<pre><code>```mathjs
-reponse=x^5
-```
-&gt; La réponse était $\mjs{reponse}$.
-&gt; En effet, $\mjs{x}^5 = \mjs{reponse}$</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb4-1" data-line-number="1">```mathjs</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">reponse=x^5</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">```</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">&gt;<span class="dt"> La réponse était $\mjs{reponse}$.</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="dt">&gt; En effet, $\mjs{x}^5 = \mjs{reponse}$</span></a></code></pre></div>
 <p>Note: Les variables sont interpolées séquentiellement, il est donc possible de les redéfinir entre deux affichages.</p>
 <p>De la même manière, il est possible d’exécuter du JavaScript au sein d’un bloc MathJax avec l’instruction <code>js</code>. L’utilisation de cette commande est toutefois découragée car elle peut causer des comportements inattendus.</p>
 <p><span class="math display">\[\js{new Date()}\]</span></p>
 <pre><code>$$\js{new Date()}$$</code></pre>
-<h2 id="les-graphes">Les graphes</h2>
+<h3 id="les-graphes">Les graphes</h3>
 <p>Ces zones de texte définissent des paramètres pour un graphe Plotly:</p>
 <div id="plot0"></div>
 <script>{
@@ -119,25 +150,25 @@ reponse=x^5
    });
    const layout = {
         title: 'Comparaison des croissances de x et de sa racine carrée',
-        paper_bgcolor:"#666",
-        plot_bgcolor: "#666",
-        font: {
-            color: "#ccc"
-        }
+        //paper_bgcolor:"#666",
+        //plot_bgcolor: "#666",
+        //font: {
+        //    color: "#ccc"
+        //}
     }
   
   Plotly.newPlot("plot0", data, layout);
 }</script>
-<pre><code>```plot
-title=Comparaison des croissances de x et de sa racine carrée
-min=-1
-max=10
-step=0.01
-expr=[&quot;sqrt(x)&quot;,&quot;x&quot;]
-```</code></pre>
-<h2 id="questionnaires">Les questionnaires</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb6-1" data-line-number="1">```plot</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">title=Comparaison des croissances de x et de sa racine carrée</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">min=-1</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">max=10</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">step=0.01</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">expr=[&quot;sqrt(x)&quot;,&quot;x&quot;]</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">```</a></code></pre></div>
+<h3 id="questionnaires">Les questionnaires</h3>
 <p>Une section<sup><a href="#sections">[1]</a></sup> ayant la classe <code>exercise</code> est interprétée comme une question dans le cadre d’un questionnaire. Le titre est utilisé comme légende, le texte libre en dessous sera affiché normalement.</p>
-<h3 id="questions-à-choix-multiples">Questions à choix multiples</h3>
+<h4 id="questions-à-choix-multiples">Questions à choix multiples</h4>
 <p>Les symboles <code>[ ]</code> en début de ligne généreront des réponses avec checkbox (plusieurs réponses possibles) tandis que les symboles <code>( )</code> généreront des réponses avec boutons radio (une seule réponse valide). Si le caractère du milieu est autre chose qu’un espace, la réponse sera considérée comme valide. Une citation dans une réponse sera affichée lors de la correction. Si il s’agit d’une bonne réponse, elle sera affichée en vert, sinon elle sera affichée en rouge.</p>
 <p>Les réponses possibles seront mélangées à chaque rechargement de la page. Seules les réponses adjacentes sont mélangées entre elles.</p>
 <fieldset class="question" id="question_1">
@@ -146,42 +177,42 @@ Question 1
 </legend>
 <p>Est-il possible de caresser un léopard ?</p>
 <ul>
-<li><input type="checkbox" data-valid=false name="question_1">
-<label data-original=" Oui"><span> Oui</span></label>
+<li><label data-original=" Oui"><input type="checkbox" data-valid=false name="question_1">
+<span> Oui</span></label>
 <span class="correction_field" hidden>
 <code>Haha what</code>
 </span></li>
-<li><input type="checkbox" data-valid=false name="question_1">
-<label data-original=" Non"><span> Non</span></label>
+<li><label data-original=" Non"><input type="checkbox" data-valid=false name="question_1">
+<span> Non</span></label>
 <span class="correction_field" hidden>
 En soit ce n’est pas faux
 </span></li>
-<li><input type="checkbox" data-valid=true name="question_1">
-<label data-original=" Kamoulox"><span> Kamoulox</span></label>
+<li><label data-original=" Kamoulox"><input type="checkbox" data-valid=true name="question_1">
+<span> Kamoulox</span></label>
 <span class="correction_field" hidden>
 <em>Seuls les connaisseurs sauront</em>
 </span></li>
 </ul>
-            <button class="check_answer">Soumettre</button>
+            <a class="check_answer waves-effect waves-light btn">Soumettre</a>
             <div class="correction_field"></div>
             </fieldset>
             <script>populateQuestion("question_1")</script>
-<pre><code>### Question 1{.exercise}
-Est-il possible de caresser un léopard ?
-
-- [ ] Oui
-
-  &gt; `Haha what`
-
-- [ ] Non
-  
-  &gt; En soit ce n&#39;est pas faux
-
-- [x] Kamoulox
-
-  &gt; *Seuls les connaisseurs sauront*
-
----</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="fu">##### Question 1{.exercise}</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">Est-il possible de caresser un léopard ?</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">- <span class="fl">[ ] Oui</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">  &gt; <span class="bn">`Haha what`</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">- <span class="fl">[ ] Non</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">  </a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="fl">  &gt; En soit ce n&#39;est pas faux</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">- <span class="fl">[x] Kamoulox</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14">  &gt; *Seuls les connaisseurs sauront*</a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16">---</a></code></pre></div>
 <p><br/></p>
 <span hidden class="math inline">\(\eval{ reponse1=round(sqrt(x) + sin(y), 3)}\)</span>
 <fieldset class="question" id="question_2">
@@ -190,18 +221,18 @@ Question 2
 </legend>
 <p>x vaut <span class="math inline">\(\mjs{x}\)</span> et y vaut <span class="math inline">\(\mjs{y}\)</span>.<br/> Combien vaut <code>x + y</code> ?<br/></p>
 <ul>
-<li><input type="radio" data-valid=false name="question_2">
-<label data-original=" \mjs{reponse1}"><span> <span class="math inline">\(\mjs{reponse1}\)</span></span></label>
+<li><label data-original=" \mjs{reponse1}"><input type="radio" data-valid=false name="question_2">
+<span> <span class="math inline">\(\mjs{reponse1}\)</span></span></label>
 <span class="correction_field" hidden>
 <br/> Mauvaise réponse !
 </span></li>
-<li><input type="radio" data-valid=true name="question_2">
-<label data-original=" \mjs{x+y}"><span> <span class="math inline">\(\mjs{x+y}\)</span></span></label>
+<li><label data-original=" \mjs{x+y}"><input type="radio" data-valid=true name="question_2">
+<span> <span class="math inline">\(\mjs{x+y}\)</span></span></label>
 <span class="correction_field" hidden>
 Coucou
 </span></li>
-<li><input type="radio" data-valid=false name="question_2">
-<label data-original=" Ne sait pas"><span> Ne sait pas</span></label>
+<li><label data-original=" Ne sait pas"><input type="radio" data-valid=false name="question_2">
+<span> Ne sait pas</span></label>
 <span class="correction_field" hidden>
 Oops !
 <div class="spoiler">
@@ -212,35 +243,35 @@ Indice
 </div>
 </span></li>
 </ul>
-            <button class="check_answer">Soumettre</button>
+            <a class="check_answer waves-effect waves-light btn">Soumettre</a>
             <div class="correction_field"></div>
             </fieldset>
             <script>populateQuestion("question_2")</script>
-<pre><code>```mathjs
-reponse1=round(sqrt(x) + sin(y), 3)
-```
-
-### Question 2{.exercise}
-x vaut $\mjs{x}$ et y vaut $\mjs{y}$.&lt;br/&gt;
-Combien vaut `x + y` ?&lt;br/&gt;
-
-- ( ) $\mjs{reponse1}$
-
-  &gt; &lt;br/&gt; Mauvaise réponse !
-
-- (+) $\mjs{x+y}$
-
-  &gt; Coucou
-
-- ( ) Ne sait pas
-
-  &gt; Oops !
-  &gt; &lt;div class=&quot;spoiler&quot;&gt;
-  &gt; &lt;h5&gt;Indice&lt;/h5&gt;
-  &gt; $$1+1=2$$
-  &gt; &lt;/div&gt;
-
----</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb8-1" data-line-number="1">```mathjs</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">reponse1=round(sqrt(x) + sin(y), 3)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">```</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="fu">##### Question 2{.exercise}</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">x vaut $\mjs{x}$ et y vaut $\mjs{y}$.&lt;br/&gt;</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">Combien vaut <span class="bn">`x + y`</span> ?&lt;br/&gt;</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">- <span class="fl">( ) $\mjs{reponse1}$</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">  &gt; &lt;br/&gt; Mauvaise réponse !</a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13">- <span class="fl">(+) $\mjs{x+y}$</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15">  &gt; Coucou</a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17">- <span class="fl">( ) Ne sait pas</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19">  &gt; Oops !</a>
+<a class="sourceLine" id="cb8-20" data-line-number="20">  &gt; &lt;div class=&quot;spoiler&quot;&gt;</a>
+<a class="sourceLine" id="cb8-21" data-line-number="21">  &gt; &lt;h5&gt;Indice&lt;/h5&gt;</a>
+<a class="sourceLine" id="cb8-22" data-line-number="22">  &gt; $$1+1=2$$</a>
+<a class="sourceLine" id="cb8-23" data-line-number="23">  &gt; &lt;/div&gt;</a>
+<a class="sourceLine" id="cb8-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb8-25" data-line-number="25">---</a></code></pre></div>
 <span hidden class="math inline">\(\eval{ reponse1 = 1; reponse2 = 2;}\)</span>
 <fieldset class="question" id="question_3">
 <legend>
@@ -248,28 +279,28 @@ Question 3
 </legend>
 <p><span class="math inline">\(\frac{(1 + 1)^2}{2} = ?\)</span></p>
 <ul>
-<li><input type="radio" data-valid=false name="question_3">
-<label data-original=" \mjs{reponse1}"><span> <span class="math inline">\(\mjs{reponse1}\)</span></span></label></li>
-<li><input type="radio" data-valid=true name="question_3">
-<label data-original=" \mjs{reponse2}"><span> <span class="math inline">\(\mjs{reponse2}\)</span></span></label></li>
-<li><input type="radio" data-valid=false name="question_3">
-<label data-original=" Ne sait pas"><span> Ne sait pas</span></label></li>
+<li><label data-original=" \mjs{reponse1}"><input type="radio" data-valid=false name="question_3">
+<span> <span class="math inline">\(\mjs{reponse1}\)</span></span></label></li>
+<li><label data-original=" \mjs{reponse2}"><input type="radio" data-valid=true name="question_3">
+<span> <span class="math inline">\(\mjs{reponse2}\)</span></span></label></li>
+<li><label data-original=" Ne sait pas"><input type="radio" data-valid=false name="question_3">
+<span> Ne sait pas</span></label></li>
 </ul>
-            <button class="check_answer">Soumettre</button>
+            <a class="check_answer waves-effect waves-light btn">Soumettre</a>
             <div class="correction_field"></div>
             </fieldset>
             <script>populateQuestion("question_3")</script>
-<pre><code>```mathjs
-reponse1 = 1;
-reponse2 = 2;
-```
-
-### Question 3 {.exercise}
-$$\frac{(1 + 1)^2}{2} = ?$$
-
-- ( ) $\mjs{reponse1}$
-- (+) $\mjs{reponse2}$
-- ( ) Ne sait pas</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb9-1" data-line-number="1">```mathjs</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">reponse1 = 1;</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">reponse2 = 2;</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">```</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="fu">##### Question 3 {.exercise}</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">$$\frac{(1 + 1)^2}{2} = ?$$</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">- <span class="fl">( ) $\mjs{reponse1}$</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="fl">- (+) $\mjs{reponse2}$</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="fl">- ( ) Ne sait pas</span></a></code></pre></div>
 <span hidden class="math inline">\(\eval{ n = randomInt(11,25); k = randomInt(5,10); reponse = (n!)/(k!*(n-k)!);}\)</span>
 <fieldset class="question" id="question_4">
 <legend>
@@ -278,83 +309,86 @@ Question 4 - Statistiques
 <ol type="a">
 <li><p>Trouvez le ou les équivalents à l’expression suivante: <span class="math display">\[\frac{\mjs{n}!}{\mjs{k}!(\mjs{n}-\mjs{k})!}\]</span></p>
 <ul>
-<li><input type="checkbox" data-valid=true name="question_4">
-<label data-original=" \binom{\mjs{n}}{\mjs{k}}"><span> <span class="math inline">\(\binom{\mjs{n}}{\mjs{k}}\)</span></span></label></li>
-<li><input type="checkbox" data-valid=true name="question_4">
-<label data-original=" \mjs{reponse}"><span> <span class="math inline">\(\mjs{reponse}\)</span></span></label></li>
-<li><input type="checkbox" data-valid=false name="question_4">
-<label data-original=" e^{\frac{\mjs{-n}\times\pi}{\sqrt{\mjs{k}}}}"><span> <span class="math inline">\(e^{\frac{\mjs{-n}\times\pi}{\sqrt{\mjs{k}}}}\)</span></span></label></li>
-<li><input type="checkbox" data-valid=false name="question_4">
-<label data-original=" \log(\mjs{n}-\mjs{k})"><span> <span class="math inline">\(\log(\mjs{n}-\mjs{k})\)</span></span></label></li>
+<li><label data-original=" \binom{\mjs{n}}{\mjs{k}}"><input type="checkbox" data-valid=true name="question_4">
+<span> <span class="math inline">\(\binom{\mjs{n}}{\mjs{k}}\)</span></span></label></li>
+<li><label data-original=" \mjs{reponse}"><input type="checkbox" data-valid=true name="question_4">
+<span> <span class="math inline">\(\mjs{reponse}\)</span></span></label></li>
+<li><label data-original=" e^{\frac{\mjs{-n}\times\pi}{\sqrt{\mjs{k}}}}"><input type="checkbox" data-valid=false name="question_4">
+<span> <span class="math inline">\(e^{\frac{\mjs{-n}\times\pi}{\sqrt{\mjs{k}}}}\)</span></span></label></li>
+<li><label data-original=" \log(\mjs{n}-\mjs{k})"><input type="checkbox" data-valid=false name="question_4">
+<span> <span class="math inline">\(\log(\mjs{n}-\mjs{k})\)</span></span></label></li>
 </ul></li>
 <li><p>Que permet de faire un coefficient binomial ?</p>
 <ul>
-<li><input type="radio" data-valid=false name="question_4">
-<label data-original=" Connaître le nombre de combinaisons possibles de placement de n convives autour d’une table"><span> Connaître le nombre de combinaisons possibles de placement de <span class="math inline">\(n\)</span> convives autour d’une table</span></label></li>
-<li><input type="radio" data-valid=true name="question_4">
-<label data-original=" Savoir combien de tirages de k éléments parmi n différents on peut réaliser"><span> Savoir combien de tirages de <span class="math inline">\(k\)</span> éléments parmi <span class="math inline">\(n\)</span> différents on peut réaliser</span></label></li>
+<li><label data-original=" Connaître le nombre de combinaisons possibles de placement de n convives autour d’une table"><input type="radio" data-valid=false name="question_4">
+<span> Connaître le nombre de combinaisons possibles de placement de <span class="math inline">\(n\)</span> convives autour d’une table</span></label></li>
+<li><label data-original=" Savoir combien de tirages de k éléments parmi n différents on peut réaliser"><input type="radio" data-valid=true name="question_4">
+<span> Savoir combien de tirages de <span class="math inline">\(k\)</span> éléments parmi <span class="math inline">\(n\)</span> différents on peut réaliser</span></label></li>
 </ul></li>
 </ol>
-            <button class="check_answer">Soumettre</button>
+            <a class="check_answer waves-effect waves-light btn">Soumettre</a>
             <div class="correction_field"></div>
             </fieldset>
             <script>populateQuestion("question_4")</script>
-<pre><code>```mathjs
-n = randomInt(11,25);
-k = randomInt(5,10);
-reponse = (n!)/(k!*(n-k)!);
-```
-
-
-### Question 4 - Statistiques {.exercise}
-
-a) Trouvez le ou les équivalents à l&#39;expression suivante: 
-$$\frac{\mjs{n}!}{\mjs{k}!(\mjs{n}-\mjs{k})!}$$
-
-    - [x] $\binom{\mjs{n}}{\mjs{k}}$
-    - [x] $\mjs{reponse}$
-    - [ ] $e^{\frac{\mjs{-n}\times\pi}{\sqrt{\mjs{k}}}}$
-    - [ ] $\log(\mjs{n}-\mjs{k})$
-
-b) Que permet de faire un coefficient binomial ?
-
-    - ( ) Connaître le nombre de combinaisons possibles de placement de $n$ convives autour d&#39;une table
-    - (+) Savoir combien de tirages de $k$ éléments parmi $n$ différents on peut réaliser
-
----</code></pre>
-<h3 id="questions-avec-fonctions">Questions avec fonctions</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb10-1" data-line-number="1">```mathjs</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">n = randomInt(11,25);</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">k = randomInt(5,10);</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">reponse = (n!)/(k!*(n-k)!);</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">```</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="fu">##### Question 4 - Statistiques {.exercise}</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">a) Trouvez le ou les équivalents à l&#39;expression suivante: </a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">$$\frac{\mjs{n}!}{\mjs{k}!(\mjs{n}-\mjs{k})!}$$</a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="bn">    - [x] $\binom{\mjs{n}}{\mjs{k}}$</span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="bn">    - [x] $\mjs{reponse}$</span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="bn">    - [ ] $e^{\frac{\mjs{-n}\times\pi}{\sqrt{\mjs{k}}}}$</span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="bn">    - [ ] $\log(\mjs{n}-\mjs{k})$</span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb10-18" data-line-number="18">b) Que permet de faire un coefficient binomial ?</a>
+<a class="sourceLine" id="cb10-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="bn">    - ( ) Connaître le nombre de combinaisons possibles de placement de $n$ convives autour d&#39;une table</span></a>
+<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="bn">    - (+) Savoir combien de tirages de $k$ éléments parmi $n$ différents on peut réaliser</span></a>
+<a class="sourceLine" id="cb10-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb10-23" data-line-number="23">---</a></code></pre></div>
+<h4 id="questions-avec-fonctions">Questions avec fonctions</h4>
 <p>Un champ d’entrée ayant la classe <code>function_input</code> permet d’écrire des questions dont la réponse est une fonction mathématique.</p>
 <p>La réponse n’aura pas besoin d’être strictement identique à la réponse officielle, toute formule équivalente sera acceptée.</p>
 <fieldset class="question" id="question_5">
 <legend>
 <em>Question 5</em>
 </legend>
+<ul>
+<li></li>
+</ul>
 <ol type="a">
 <li>Que vaut le périmètre d’un cercle de rayon <span class="math inline">\(r\)</span> ?</li>
 </ol>
 <ul>
-<li><label data-original="P(r)="><span class="math inline">\(P(r)=\)</span></label><input type="text" class="function_input" name=" Question 5"data-function="PI*r*2"/></li>
+<li><label data-original="P(r)="><span class="math inline">\(P(r)=\)</span></label><input name="Question 5" data-function="PI*r*2"/></li>
 </ul>
 <ol start="2" type="a">
 <li>Que vaut l’aire d’un disque de rayon <span class="math inline">\(r\)</span> ?</li>
 </ol>
 <ul>
-<li><label for=question_5_answer_2 data-original="P(r)="><span class="math inline">\(A(r)=\)</span></label><input type="text" class="function_input" name=" Question 5" id="question_5_answer_2" data-function="PI*r^2"/></li>
+<li><label data-original="P(r)="><span class="math inline">\(A(r)=\)</span></label><input name="Question 5" data-function="PI*r^2"/></li>
 </ul>
-            <button class="check_answer">Soumettre</button>
+            <a class="check_answer waves-effect waves-light btn">Soumettre</a>
             <div class="correction_field"></div>
             </fieldset>
             <script>populateQuestion("question_5")</script>
-<pre><code>### *Question 5* {.exercise}
-
-a) Que vaut le périmètre d&#39;un cercle de rayon $r$ ?
-  - &lt;label data-original=&quot;P(r)=&quot;&gt;$P(r)=$&lt;/label&gt;&lt;input class=&quot;function_input&quot; name=&quot; Question 5&quot; data-function=&quot;PI*r*2&quot;/&gt;
-b) Que vaut l&#39;aire d&#39;un disque de rayon $r$ ?
-  - &lt;label data-original=&quot;P(r)=&quot;&gt;$A(r)=$&lt;/label&gt;&lt;input class=&quot;function_input&quot; name=&quot; Question 5&quot; data-function=&quot;PI*r^2&quot;/&gt;
-
----</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="fu">##### *Question 5* {.exercise}</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">a) Que vaut le périmètre d&#39;un cercle de rayon $r$ ?</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">  - &lt;label data-original=&quot;P(r)=&quot;&gt;$P(r)=$&lt;/label&gt;&lt;input name= &quot;Question 5&quot; data-function=&quot;PI*r*2&quot;/&gt;</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">b) Que vaut l&#39;aire d&#39;un disque de rayon $r$ ?</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">  - &lt;label data-original=&quot;P(r)=&quot;&gt;$A(r)=$&lt;/label&gt;&lt;input name= &quot;Question 5&quot; data-function=&quot;PI*r^2&quot;/&gt;</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">---</a></code></pre></div>
 <p><br/></p>
-<h3 id="pour-aller-plus-loin">Pour aller plus loin</h3>
+<h4 id="pour-aller-plus-loin">Pour aller plus loin</h4>
 <p>Il est possible d’utiliser du JavaScript pour spécifier des comportements plus avancés lors de la correction.</p>
 <fieldset class="question" id="question_6">
 <legend>
@@ -362,7 +396,7 @@ Question 6
 </legend>
 <p>Que vaut le périmètre d’un carré de côté <span class="math inline">\(x\)</span> ?</p>
 <ul>
-<li><label for=question_6_answer_1 data-original="P(x)="><span class="math inline">\(P(x)=\)</span></label><input type="text" class="function_input" name=" Question 6" id="question_6_answer_1" data-function="4x"/></li>
+<li><label data-original="P(x)="><span class="math inline">\(P(x)=\)</span></label><input type="text" name="Question 6" id="question_6_answer_1" data-function="4x"/></li>
 </ul>
 <div id="dinosaure" hidden="">
 <p><img height="42" width="42" src="https://pre00.deviantart.net/9532/th/pre/i/2015/106/2/d/denver_the_last_dinosaur_by_eligecos-d7ubr4p.png"/></p>
@@ -378,40 +412,56 @@ case   "dinosaure" :
     question.correction_1.show()
 }});
 </script>
-            <button class="check_answer">Soumettre</button>
+            <a class="check_answer waves-effect waves-light btn">Soumettre</a>
             <div class="correction_field"></div>
             </fieldset>
             <script>populateQuestion("question_6")</script>
-<pre><code>#### Question 6 {.exercise}
-Que vaut le périmètre d&#39;un carré de côté $x$ ?
-
-  - &lt;label for=question_6_answer_1 data-original=&quot;P(x)=&quot;&gt;$P(x)=$&lt;/label&gt;&lt;input type=&quot;text&quot; class=&quot;function_input&quot; name=&quot; Question 6&quot; id=&quot;question_6_answer_1&quot; data-function=&quot;4x&quot;/&gt;
-
-&lt;div id=&quot;dinosaure&quot; hidden&gt;
-&lt;img height=&quot;42&quot; width=&quot;42&quot; src=&quot;https://pre00.deviantart.net/9532/th/pre/i/2015/106/2/d/denver_the_last_dinosaur_by_eligecos-d7ubr4p.png&quot;/&gt;
-&lt;/div&gt;
-
-```correction
-when question.answer_1.value {
-  &quot;x^2&quot; : question.correction_1.color(&quot;red&quot;).show(&quot;Cette formule donne l&#39;aire du carré.&quot;)
-  &quot;4x&quot;: question.correction_1.color(&quot;green&quot;).show(&quot;Exactement comme dans la correction.&quot;)
-  &quot;dinosaure&quot; :
-    question.correction_1.view = &quot;dinosaure&quot;
-    question.correction_1.show()
-}
-```
----</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="fu">##### Question 6 {.exercise}</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">Que vaut le périmètre d&#39;un carré de côté $x$ ?</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">  - &lt;label for=question_6_answer_1 data-original=&quot;P(x)=&quot;&gt;$P(x)=$&lt;/label&gt;&lt;input type=&quot;text&quot; name= &quot;Question 6&quot; id=&quot;question_6_answer_1&quot; data-function=&quot;4x&quot;/&gt;</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">&lt;div id=&quot;dinosaure&quot; hidden&gt;</a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">&lt;img height=&quot;42&quot; width=&quot;42&quot; src=&quot;https://pre00.deviantart.net/9532/th/pre/i/2015/106/2/d/denver_the_last_dinosaur_by_eligecos-d7ubr4p.png&quot;/&gt;</a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">&lt;/div&gt;</a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10">```correction</a>
+<a class="sourceLine" id="cb12-11" data-line-number="11">when question.answer_1.value {</a>
+<a class="sourceLine" id="cb12-12" data-line-number="12">  &quot;x^2&quot; : question.correction_1.color(&quot;red&quot;).show(&quot;Cette formule donne l&#39;aire du carré.&quot;)</a>
+<a class="sourceLine" id="cb12-13" data-line-number="13">  &quot;4x&quot;: question.correction_1.color(&quot;green&quot;).show(&quot;Exactement comme dans la correction.&quot;)</a>
+<a class="sourceLine" id="cb12-14" data-line-number="14">  &quot;dinosaure&quot; :</a>
+<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="bn">    question.correction_1.view = &quot;dinosaure&quot;</span></a>
+<a class="sourceLine" id="cb12-16" data-line-number="16"><span class="bn">    question.correction_1.show()</span></a>
+<a class="sourceLine" id="cb12-17" data-line-number="17">}</a>
+<a class="sourceLine" id="cb12-18" data-line-number="18">```</a>
+<a class="sourceLine" id="cb12-19" data-line-number="19">---</a></code></pre></div>
 <p><br/></p>
 <hr />
 <p><br/></p>
-<h2 id="bonus-les-zones-de-texte-cachées">Bonus: Les zones de texte cachées</h2>
-<p>Ces zones n’apparaissent pas dans le document HTML résultant</p>
+<h3 id="bonus-les-zones-de-texte-cachées">Bonus: Les zones de texte cachées</h3>
+<p>Ces zones n’apparaissent pas dans le document HTML résultant. Elles peuvent être utilisées si vous souhaitez commenter votre document sans que les étudiants ne puissent lire ces commentaires.</p>
 <pre><code>```hidden
 Bonjour, ce texte ne sera jamais affiché
 ```</code></pre>
 <p><br/></p>
 <hr />
 <p><br/><br/></p>
-<footer>
+</div>
+</main>
+<footer class="page-footer">
+<div class="container">
+<div class="row">
+<h2 id="présentation-du-projet-exodoc">Présentation du projet Exodoc</h2>
+<p>Les questionnaires informatiques sont souvent plus intéressants que des exercices standards sur papier pour de nombreuses raisons. Cependant, ils sont également plus ennuyeux à réaliser, particulièrement pour les novices de la programmation web. Bien qu’il existe de nombreux outils pour la génération de pages webs <em>via</em> des outils graphiques plus simples à prendre en main, ils ne sont pas toujours adaptés à l’écriture de nombreuses pages plus simples dédiées à l’auto-évaluation par exemple. Cet outil vise à fournir une solution légère et ergonomique à la fois pour les créateurs de contenu et leurs utilisateurs.</p>
+</div>
+</div>
+<div class="footer-copyright">
+<div class="container">
+<div class="row grey-text text-lighten-4">
 Site réalisé dans le cadre du projet AVOSTTI
+</div>
+</div>
+</div>
 </footer>
+</body>
+</html>

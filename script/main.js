@@ -5,8 +5,16 @@ const parser = math.parser();
 /**
  * initializes spoiler logic
  */
-document.addEventListener('DOMContentLoaded', () => setupListeners(document));
+document.addEventListener('DOMContentLoaded', () => {
+    //setupListeners(document);
+    let elems = document.querySelectorAll('.collapsible');
+    let instances = M.Collapsible.init(elems, {});
+});
 
+/**
+ * Adds listeners to spoilers. Needs to be applied once when the page is loaded
+ * and then when a spoiler is cloned.
+ */
 function setupListeners(element) {
     element.querySelectorAll('.spoiler>:first-child')
         .forEach(e => {
@@ -28,8 +36,8 @@ function populateQuestion(id) {
     question.querySelectorAll('ul li input').forEach(input => {
         input.id = `${id}_answer_${i++}`;
         let sibling = input.nextSibling;
-        let li = input.parentNode;
-        let label = li.querySelector('label');
+        let label = input.parentNode;
+        let li = label.parentNode;
         label.htmlFor = input.id;
         li.classList.add('answer');
         // create an empty correction field if no default was specified
