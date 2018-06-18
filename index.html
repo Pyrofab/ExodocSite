@@ -426,10 +426,10 @@ case   "dinosaure" :
 <a class="sourceLine" id="cb12-8" data-line-number="8">&lt;/div&gt;</a>
 <a class="sourceLine" id="cb12-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb12-10" data-line-number="10">```correction</a>
-<a class="sourceLine" id="cb12-11" data-line-number="11">when question.answer_1.value {</a>
-<a class="sourceLine" id="cb12-12" data-line-number="12">  &quot;x^2&quot; : question.correction_1.color(&quot;red&quot;).show(&quot;Cette formule donne l&#39;aire du carré.&quot;)</a>
-<a class="sourceLine" id="cb12-13" data-line-number="13">  &quot;4x&quot;: question.correction_1.color(&quot;green&quot;).show(&quot;Exactement comme dans la correction.&quot;)</a>
-<a class="sourceLine" id="cb12-14" data-line-number="14">  &quot;dinosaure&quot; :</a>
+<a class="sourceLine" id="cb12-11" data-line-number="11">switch(question.answer_1.value) {</a>
+<a class="sourceLine" id="cb12-12" data-line-number="12">  case &quot;x^2&quot; : question.correction_1.color(&quot;red&quot;).show(&quot;Cette formule donne l&#39;aire du carré.&quot;); break;</a>
+<a class="sourceLine" id="cb12-13" data-line-number="13">  case &quot;4x&quot;: question.correction_1.color(&quot;green&quot;).show(&quot;Exactement comme dans la correction.&quot;); break;</a>
+<a class="sourceLine" id="cb12-14" data-line-number="14">  case &quot;dinosaure&quot; :</a>
 <a class="sourceLine" id="cb12-15" data-line-number="15"><span class="bn">    question.correction_1.view = &quot;dinosaure&quot;</span></a>
 <a class="sourceLine" id="cb12-16" data-line-number="16"><span class="bn">    question.correction_1.show()</span></a>
 <a class="sourceLine" id="cb12-17" data-line-number="17">}</a>
